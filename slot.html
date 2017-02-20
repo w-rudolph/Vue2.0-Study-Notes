@@ -1,0 +1,69 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuejs filter</title>
+    <style type="text/css">
+        .filter_demo {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <child>Haha {{msg}}</child>
+        <child name="m1">{{m1}}</child>
+        <child name="m2">{{m2}}</child>
+        <child1 :items="items">
+            <template scope="props">
+                <p>{{props.text}}</p>
+                <p>{{props.sdt}}</p>
+            </template>
+            <template scope="props" slot="m3">
+                <p>{{props.text}}</p>
+            </template>
+            <template scope="props" slot="list">
+                <li>{{props.text}}</li>
+            </template>
+        </child1>
+    </div>
+    <script id="child" type="text/template">
+        <p>
+            <slot></slot>
+            <slot name="m1"></slot>
+            <slot name="m2"></slot>
+        </p>
+    </script>
+    <script id="child1" type="text/template">
+        <p>
+            <slot text="hello from child" sdt="Haha Haha"></slot>
+            <slot name="m3" text="slot with name"></slot>
+            <ul>
+                <slot name="list" v-for="item in items" :text="item"></slot>
+            </ul>
+        </p>
+    </script>
+    <script type="text/javascript" src="./dist/vue.min.js"></script>
+    <script type="text/javascript">
+        /**
+        * 类似ng-transclude
+        */
+        Vue.component('child', {
+            template: '#child'
+        });
+        Vue.component('child1', {
+            template: '#child1',
+            props: ['items']
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                msg: 'Hello World!',
+                m1: 'M1...',
+                m2: 'M2...',
+                items:['c#','c++','java','swift','javascript','html']
+            }
+        })
+    </script>
+</body>
+</html>
