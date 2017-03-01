@@ -1,0 +1,42 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuejs filter</title>
+</head>
+<body>
+    <div id="app">
+        <citypicker></citypicker>
+    </div>
+    <script type="text/x-template" id="citypicker-tpl">
+        <div class="citypicker">
+            <select v-model="province">
+                <option value="0" selected>省份</option>
+                <option v-for="item in provinces" :value="item.item_code" v-text="item.item_name"></option>
+            </select>
+            <select v-model="city" v-show="!!cities.length">
+                <option value="0" selected>市</option>
+                <option v-for="item in cities" :value="item.item_code" v-text="item.item_name"></option>
+            </select>
+            <select v-model="district" v-show="!!districts.length">
+                <option value="0" selected>区</option>
+                <option v-for="item in districts" :value="item.item_code" v-text="item.item_name"></option>
+            </select>
+        </div>
+    </script>
+    <script type="text/javascript" src="./dist/vue.min.js"></script>
+    <script type="text/javascript" src="./src/helper/guid.js"></script>
+    <script type="text/javascript" src="./src/component/area_data.js"></script>
+    <script type="text/javascript" src="./src/component/citypicker.js"></script>
+
+    <script type="text/javascript">
+        
+        var vm = new Vue({
+            el: '#app',
+            component: {
+                'citypicker': cityPicker
+            }
+        })
+    </script>
+</body>
+</html>
