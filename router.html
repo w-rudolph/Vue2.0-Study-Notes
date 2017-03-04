@@ -1,0 +1,110 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuejs router</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/index">Go to index</router-link>
+        <router-link to="/about">Go to about</router-link>
+        <router-link to="/about/me">Go to about me</router-link>
+        <router-link to="/about/tom">Go to about tom</router-link>
+        <router-link to="/post/5?q=3&d=3#h4">post index</router-link>
+        <router-view></router-view>
+    </div>
+    <script type="text/template" id="index-tpl">
+        <p>
+            {{msg}} : Hello, welcome to index page
+        </p>
+    </script>
+    <script type="text/template" id="about-tpl">
+        <p>
+            {{msg}} : Hello, welcome to about page
+            <router-view></router-view>
+        </p>
+    </script>
+    <script type="text/template" id="post-tpl">
+        <p>
+            params: {{$route}}
+        </p>
+    </script>
+    <script type="text/javascript" src="./dist/vue.js"></script>
+    <script type="text/javascript" src="./dist/vue-router.js"></script>
+    <script type="text/javascript">
+        var indexComponent = {
+            template: '#index-tpl',
+            mounted: function () {
+                console.log('index page mounted!');
+            },
+            data: function () {
+                return {
+                    msg: 'Message form index page'
+                }
+            }
+        }
+        var aboutComponent = {
+            template: '#about-tpl',
+            mounted: function () {
+                console.log('about page mounted!');
+            },
+            data: function () {
+                return {
+                    msg: 'Message form about page'
+                }
+            }
+        };
+        var routes = [
+            {
+                path: '/',
+                redirect: '/index'
+            },
+		    {
+		        path: '/index',
+		        component: indexComponent
+		    },
+		    {
+		        path: '/about',
+		        component: aboutComponent,
+		        children: [
+		            {
+		                path: 'me',
+		                component: {
+		                    template: '<p>About me</p>'
+		                }
+		            },
+                    {
+                        path: 'tom',
+                        component: {
+                            template: '<p>About tom</p>'
+                        }
+                    }
+		        ]
+		    },
+            {
+                path: '/post/:id',
+                component: {
+                    template: '#post-tpl'
+                }
+            }
+        ];
+        var router = new VueRouter({
+            routes: routes
+        });
+        router.beforeEach(function (to, from, next) {
+            //console.log('------');
+            //console.log('to:', to.path);
+            //console.log('from:', from.path);
+            //console.log('------');
+            //if (from.path === '/') {
+            //    console.log(1)
+            //}
+            next();//类似于nodejs 中中间件的概念   不用next, 路由不会跳转
+        })
+        var app = new Vue({
+            router: router,
+        }).$mount('#app');
+        //console.log(router);
+    </script>
+</body>
+</html>
