@@ -1,0 +1,54 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuejs Component</title>
+</head>
+<body>
+    <div id="app">
+        {{count}}
+         <child-component v-on:countadd="countAdd" v-on:click.native="nativeClick" v-bind:count="count"></child-component>
+    </div>
+     <script type="text/template" id="cpt">
+         <div style="border: 1px dashed #ddd">
+             {{count}}
+             <button type="button" v-on:click="countAdd">Count Add</button>
+         </div>
+     </script>
+    <script type="text/javascript" src="./dist/vue.min.js"></script>
+    <script type="text/javascript">
+        function nativeClick() {
+            console.log('native click action triggered!');
+        }
+        var child = {
+            template: '#cpt',
+            props: ['countadd','count'],
+            methods: {
+                countAdd: function () {
+                    this.$emit('countadd', 'ChildComponent->', 'msg from child component');
+                }
+            },
+            data: function () {
+                return {
+                    count: 0
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                count: 0
+            },
+            methods: {
+                countAdd: function (from, msg) {
+                    this.count++;
+                    console.log(from + msg);
+                }
+            },
+            components: {
+                childComponent: child
+            }
+        });
+    </script>
+</body>
+</html>

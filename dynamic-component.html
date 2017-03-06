@@ -1,0 +1,56 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuejs Dynamic Component</title>
+</head>
+<body>
+    <div id="app">
+        <select v-model="currentView">
+            <option value="home">Home component</option>
+            <option value="about">About component</option>
+        </select>
+        <hr />
+        <component v-bind:is="currentView" keep-alive></component>
+    </div>
+    <script type="text/template" id="home-tpl">
+        <div id="home">
+            {{msg}}
+        </div>
+    </script>
+    <script type="text/template" id="about-tpl">
+        <div id="about">
+            {{msg}}
+        </div>
+    </script>
+    <script type="text/javascript" src="./dist/vue.min.js"></script>
+    <script type="text/javascript">
+        var Home = {
+            template: '#home-tpl',
+            data: function () {
+                return {
+                    msg: 'Home page'
+                }
+            }
+        };
+        var About = {
+            template: '#about-tpl',
+            data: function () {
+                return {
+                    msg: 'About page'
+                }
+            }
+        };
+        var VM = new Vue({
+            el: '#app',
+            data: {
+                currentView: 'home'
+            },
+            components: {
+                home: Home,
+                about: About
+            }
+        })
+    </script>
+</body>
+</html>
