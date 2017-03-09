@@ -3,32 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>Vuejs directive</title>
+    <style type="text/css">
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <div id="app">
-       
+    <div id="app" v-cloak>
+       <div v-color="color">{{msg}}</div>
+       <div v-reverse="msg"></div>
+        <input v-required="false"placeholder="required: false"/>
+        <input v-required="true" placeholder="required: true" />
+        <input v-disabled="false" placeholder="disabled: false" />
+        <input v-disabled="true"  placeholder="disabled: true"/>
     </div>
     <script type="text/javascript" src="./dist/vue.min.js"></script>
     <script type="text/javascript">
-        Vue.directive('test', {
-            bind: function () {
-
-            },
-            inserted: function () {
-
+        Vue.directive('color', {
+            bind: function (el, binding) {
+                el.style.color = binding.value;
             },
             update: function () {
-
-            },
-            componentUpdated: function () {
 
             },
             unbind: function () {
 
             }
-        })
+        });
         var app = new Vue({
-            el: '#app'
+            el: '#app',
+            data: {
+                msg: 'hello!',
+                color: '#f00'
+            },
+            directives: {
+                reverse: {
+                    bind: function (el, binding) {
+                        el.innerHTML = binding.value.split("").reverse().join("");
+                    }
+                },
+                required: {
+                    bind: function (el, binding) {
+                        el.required = !!binding.value;
+                    }
+                },
+                disabled: {
+                    bind: function (el, binding) {
+                        el.disabled = !!binding.value;
+                    }
+                }
+            }
         })
     </script>
 </body>
