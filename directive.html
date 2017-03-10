@@ -17,6 +17,10 @@
         <input v-required="true" placeholder="required: true" />
         <input v-disabled="false" placeholder="disabled: false" />
         <input v-disabled="true"  placeholder="disabled: true"/>
+        <input v-bind:disabled="false" />
+        <input v-bind:disabled="true" />
+        <input v-bind:required="false" />
+        <input v-bind:required="true" />
     </div>
     <script type="text/javascript" src="./dist/vue.min.js"></script>
     <script type="text/javascript">
